@@ -1,0 +1,1 @@
+Bot that analyzes personality traits based on questionaire and free user's text
