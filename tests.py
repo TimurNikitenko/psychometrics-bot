@@ -1,4 +1,4 @@
-import random
+# import random
 
 class MBTI_question:
 
@@ -11,14 +11,13 @@ class MBTI_test:
 
     def __init__(self, questions: list[MBTI_question]):
         self.questions = questions
-        self.user_answers = []
 
-    def evaluate(self):
+    def evaluate(self, answers):
 
         results = {'E': 0, 'I': 0, 'S': 0, 'N': 0, 'T': 0, 'F': 0, 'J': 0, 'P': 0}
 
         for i in range(len(self.questions)):
-            ans = self.user_answers[i]
+            ans = answers[i]
             quest = self.questions[i]
             direction = quest.rule[ans]
             results[direction] += 1
@@ -29,9 +28,6 @@ class MBTI_test:
         jp = 'J' if results['J'] >= results['P'] else 'P'
 
         return ei + sn + tf + jp
-
-    def add_answer(self, answer):
-        self.user_answers.append(answer)
 
 
 mbti_questions = [
@@ -170,9 +166,17 @@ mbti_answers = [
     ("To be too passionate", "To be too objective"),
     ("Hard-headed", "Soft-hearted"),
     ("The structured and scheduled", "The unstructured and unscheduled"),
-    ("Planned event", "Unplanned event"),
-    ("Deliberate than spontaneous", "Spontaneous than deliberate")
+    ("routinized than whimsical", "whimsical than routinized"),
+    ("easy to approach", "somewhat reserved"),
+    ("the more literal", "the more figurative"),
+    ("identify with others", "utilize others"),
+    ("clarity of reason", "strength of compassion"),
+    ("being indiscriminate", "being critical"),
+    ("planned event", "unplanned event"),
+    ("deliberate than spontaneous", "spontaneous than deliberate")
 ]
+
+
 
 mbti_rules = [
     {0: 'E', 1: 'I'},  # Col 1
@@ -184,15 +188,14 @@ mbti_rules = [
     {0: 'T', 1: 'F'},  # Col 7 = TF
 ] * 10
 
+MBTI_questions = [MBTI_question(q, a, r) for q, a, r in zip(mbti_questions, mbti_answers, mbti_rules)]
 
-""" questions = [MBTI_question(q, a, r) for q, a, r in zip(mbti_questions, mbti_answers, mbti_rules)]
-test = MBTI_test(questions)
+""" 
+test = MBTI_test(MBTI_questions)
 
 stats = []
 for i in range(100):
     test = MBTI_test(questions)
     _ = [test.add_answer(random.choice([0,1])) for i in range(70)]
     stats.append(test.evaluate())  """
-
-
 
