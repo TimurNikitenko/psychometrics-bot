@@ -179,13 +179,13 @@ mbti_answers = [
 
 
 mbti_rules = [
-    {0: 'E', 1: 'I'},  # Col 1
-    {0: 'S', 1: 'N'},  # Col 2
-    {0: 'T', 1: 'F'},  # Col 3
-    {0: 'J', 1: 'P'},  # Col 4
-    {0: 'E', 1: 'I'},  # Col 5 = EI
-    {0: 'S', 1: 'N'},  # Col 6 = SN
-    {0: 'T', 1: 'F'},  # Col 7 = TF
+    {1: 'E', 2: 'I'},  # Col 1
+    {1: 'S', 2: 'N'},  # Col 2
+    {1: 'T', 2: 'F'},  # Col 3
+    {1: 'J', 2: 'P'},  # Col 4
+    {1: 'E', 2: 'I'},  # Col 5 = EI
+    {1: 'S', 2: 'N'},  # Col 6 = SN
+    {1: 'T', 2: 'F'},  # Col 7 = TF
 ] * 10
 
 MBTI_questions = [MBTI_question(q, a, r) for q, a, r in zip(mbti_questions, mbti_answers, mbti_rules)]
