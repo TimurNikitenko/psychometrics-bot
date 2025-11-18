@@ -3,16 +3,25 @@ import asyncio
 
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from aiogram import Bot, Dispatcher, F
-from aiogram.filters import Command, CommandStart, StateFilter
-from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import default_state, State, StatesGroup
+from aiogram import Bot, Dispatcher
+from aiogram.types import BotCommand
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup, Message, PhotoSize
 
-import tests
-from handlers import setup_handlers
+import testing_utils
+import handlers
 from config import Config, load_config
+
+async def set_main_menu(bot: Bot):
+
+    # Создаем список с командами и их описанием для кнопки menu
+    main_menu_commands = [
+        BotCommand(command='/help',
+                   description='Справка по работе бота'),
+        BotCommand(command='/test',
+                   description='Начать тестирование')
+    ]
+
+    await bot.set_my_commands(main_menu_commands)
 
 logger = logging.getLogger(__name__)
 
@@ -42,14 +51,18 @@ async def main():
     dp = Dispatcher(storage=storage)
 
     user_dict: dict[int, str] = {}
-    test = tests.MBTI_test(tests.MBTI_questions)
+    test = testing_utils.MBTI_test(testing_utils.MBTI_questions)
     questions = test.questions
+
+    dp.include_router(handlers.create_router(logger, test, questions, user_dict))
+    dp.startup.register(set_main_menu)
+
 
     # Инициализируем другие объекты (пул соединений с БД, кеш и т.п.)
     # ...
 
     # Помещаем нужные объекты в workflow_data диспетчера
-    dp.workflow_data.update(test=test, questions=questions, user_dict=user_dict)
+    dp.workflow_data.update(test=test, questions=questions, user_dict=user_dict, logger=logger)
 
     # Настраиваем главное меню бота
     # await set_main_menu(bot)
@@ -63,7 +76,6 @@ async def main():
     # ...
 
     # Регистрируем обработчики
-    setup_handlers(dp, bot, test, questions, user_dict)
 
     # Пропускаем накопившиеся апдейты и запускаем polling
     await bot.delete_webhook(drop_pending_updates=True)
