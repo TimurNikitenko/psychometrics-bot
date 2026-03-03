@@ -408,5 +408,3 @@ mbti_answers_ru = [
 
 MBTI_questions_ru = [MBTI_question(q, a, r) for q, a, r in zip(mbti_questions_ru, mbti_answers_ru, mbti_rules)]
 
-
-

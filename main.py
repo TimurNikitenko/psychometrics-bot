@@ -68,7 +68,6 @@ async def set_main_menu(bot: Bot):
 
 
 async def main():
-
     logging.basicConfig(
         level=logging.INFO,
         format='%(filename)s:%(lineno)d #%(levelname)-8s '

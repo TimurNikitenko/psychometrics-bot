@@ -372,7 +372,6 @@ def create_router(mbti_clf=None, mbti_clf_container=None):
         curr_ind = data['current_question']
         test = data['test']
 
-    
         if callback.data.isdigit() and int(callback.data) in (1, 2):
             answers.append(int(callback.data))
 
